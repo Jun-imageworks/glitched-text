@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>png glitchy typewriter</title>
+  <style type="text/css">
+    body {
+      background-color: white;
+      margin: 0;
+      padding: 0;
+    }
+    #control-panel {
+      position: relative;
+      margin: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 10;
+    }
+    #text-input {
+      width: 200px;
+      height: 80px;
+    }
+    .range-label {
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      color: #000;
+    }
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 200px;
+      height: 6px;
+      background: black;
+      border-radius: 3px;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 6px;
+      background: black;
+      border-radius: 3px;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: white;
+      border: 2px solid black;
+      cursor: pointer;
+      margin-top: -4px;
+    }
+    #alignment-buttons {
+      display: flex;
+      justify-content: left;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    #alignment-buttons button {
+	  font-family: 'Courier New', Courier, monospace;
+	  font-weight: bold;
+      background-color: #000;
+      color: white;
+      border-radius: 20px;
+      width: 60px;
+      cursor: pointer;
+      border: none;
+      padding: 6px;
+    }
+    #alignment-buttons button:hover {
+      background-color: aqua;
+      color: black;
+
+
+	  
+    }
+#download-button button {
+        position: fixed;
+      top: 20px;
+      right: 20px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  background-color: black;
+  color: white;
+  border: none; /* ✅ 회색 테두리 제거 */
+  border-radius: 20px;
+  width: 90px;
+  padding: 6px;
+  cursor: pointer;
+  outline: none; /* ✅ 포커스 테두리도 제거 */
+  box-shadow: none; /* ✅ 혹시 남아있을 수 있는 음영도 제거 */
+}
+    #text-holder {
+      position: absolute;
+      top: 50px;
+      left: 250px;
+      width: 85%;
+      z-index: 1;
+      padding: 10px;
+      text-align: left;
+      word-wrap: break-word;
+    }
+.divider {
+  width: 205px;
+  margin-left: 20px;
+  margin-top: 30px;
+  height: 0; /* 필수: border로 선을 만들기 위해 */
+  border-top: 2px dotted #000000; /* ← 요 부분이 핵심 */
+}
+
+.divider2 {
+  width: 205px;
+  margin-left: 20px;
+  margin-top: 30px;
+  height: 0; /* 필수: border로 선을 만들기 위해 */
+  border-top: 2px dotted #000000; /* ← 요 부분이 핵심 */
+}
+.divider3 {
+  width: 205px;
+  margin-left: 20px;
+  margin-top: 30px;
+  height: 0; /* 필수: border로 선을 만들기 위해 */
+  border-top: 2px dotted #000000; /* ← 요 부분이 핵심 */
+}
+	.description{
+		width: 205px;
+		 margin-left: 20px;
+		 margin-top: 20px;
+		font-family: 'Courier New', Courier, monospace;
+		text-align: left;
+		font-size: 14px;
+		line-height: 120%;
+	}
+	.description2{
+		width: 205px;
+		 margin-left: 20px;
+		 margin-top: 20px;
+		font-family: 'Courier New', Courier, monospace;
+		text-align: left;
+		font-size: 14px;
+		line-height: 120%;
+	}
+	a{
+  display: inline-block; /* 또는 block */
+  font-family: 'Courier New', Courier, monospace;
+  width: 205px;
+  margin-left: 20px;
+  margin-top: 20px;
+  text-align: left;
+  font-size: 14px;
+  line-height: 120%;
+  text-decoration: none;
+  color: black;
+	}
+
+	#gif{
+
+		width: 200px;
+
+	}
+
+
+
+  </style>
+</head>
+<body>
+
+  <!-- 다운로드 버튼 -->
+  <div id="download-button">
+    <button onclick="downloadImage()">Download</button>
+  </div>
+
+  <!-- 컨트롤 패널 -->
+  <div id="control-panel">
+    <textarea id="text-input" oninput="updateText()">TEXT Me</textarea>
+
+    <div>
+      <label for="size-range" class="range-label">Size</label><br>
+      <input type="range" id="size-range" min="50" max="800" value="300" oninput="updateText()">
+    </div>
+
+    <div>
+      <label for="gap-range" class="range-label">Tracking</label><br>
+      <input type="range" id="gap-range" min="-200" max="200" value="-30" oninput="updateText()">
+    </div>
+
+    <div>
+      <label for="line-gap-range" class="range-label">Leading</label><br>
+      <input type="range" id="line-gap-range" min="0" max="200" value="150" oninput="updateText()">
+    </div>
+
+    <!-- 정렬 버튼 -->
+    <div id="alignment-buttons">
+      <button onclick="setAlign('left')">Left</button>
+      <button onclick="setAlign('center')">Center</button>
+      <button onclick="setAlign('right')">Right</button>
+    </div>
+  </div>
+<hr class="divider">
+
+<div class="description">
+  This work investigates the expressive potential of letterforms as they are deconstructed and reassembled through glitch aesthetics and the digital landscape.
+</div>
+<hr class="divider2">
+<div class="description2">
+All right reserved Dongjun Choi @COPYRIGHT 2025 From Ted's glich class
+</div>
+
+
+<hr class="divider3">
+
+<div>
+  <a href="https://www.instagram.com/dongjun.obj/" target="_blank">Instagram!</ㅐ>
+</div>
+
+  <img src="images/moving.gif" id="gif">
+
+
+  <!-- 텍스트 출력 영역 -->
+  <div id="text-holder"></div>
+
+  <!-- 캡처 스크립트 -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+  <script type="text/javascript">
+    let textinput = document.getElementById('text-input');
+    let textholder = document.getElementById('text-holder');
+    let sizerange = document.getElementById('size-range');
+    let gaprange = document.getElementById('gap-range');
+    let linegap = document.getElementById('line-gap-range');
+
+    function setAlign(align) {
+      textholder.style.textAlign = align;
+    }
+
+    function downloadImage() {
+      html2canvas(textholder).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'text-image.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+
+    function updateText() {
+      textholder.innerHTML = '';
+      let imgSize = sizerange.value;
+      let imgGap = gaprange.value;
+		let overlap = 200 - linegap.value; // 슬라이더 max값 기준 반전
+
+      for (let i = 0; i < textinput.value.length; i++) {
+        let letter = textinput.value.charAt(i);
+
+        if (letter === '\n') {
+          textholder.innerHTML += '<br>';
+        } else if (letter === ' ') {
+          textholder.innerHTML += `<span style="display:inline-block; width:${imgSize / 5}px;"></span>`;
+        } else {
+          let variantCount = 3;
+          let variantIndex = Math.floor(Math.random() * variantCount);
+
+          let isUpper = letter === letter.toUpperCase() && letter !== letter.toLowerCase();
+          let prefix = isUpper ? 'up-' : 'lo-';
+
+
+          let imgFileName = variantIndex === 0
+            ? `${prefix}${letter}.png`
+            : `${prefix}${letter}${variantIndex}.png`;
+          let folder = isUpper ? 'up' : 'lo';
+          let imgPath = `images/${folder}/${imgFileName}`;
+
+          textholder.innerHTML += `
+            <img 
+              class="letters" 
+              src="${imgPath}" 
+              style="
+                height:${imgSize}px;
+                width:auto;
+                image-rendering: pixelated;
+                display:inline-block;
+                margin-right:${imgGap}px;
+                margin-top:-${overlap}px;">
+          `;
+        }
+      }
+    }
+
+    updateText();
+  </script>
+
+</body>
+</html>
